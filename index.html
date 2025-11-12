@@ -731,8 +731,8 @@
             }
 
             setTimeout(() => {
-                feedbackDiv.innerHTML += `<button class="next-btn" onclick="nextQuestion()">つぎへ →</button>`;
-            }, 1000);
+                nextQuestion();
+            }, 2000);
         }
 
         function checkTrueFalse(answer) {
@@ -756,8 +756,8 @@
             }
 
             setTimeout(() => {
-                feedbackDiv.innerHTML += `<button class="next-btn" onclick="nextQuestion()">つぎへ →</button>`;
-            }, 1000);
+                nextQuestion();
+            }, 2000);
         }
 
         function nextQuestion() {
