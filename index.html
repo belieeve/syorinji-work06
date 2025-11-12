@@ -715,24 +715,31 @@
             const buttons = document.querySelectorAll('.option-btn');
             const feedbackDiv = document.getElementById('feedback');
 
-            buttons.forEach(btn => btn.disabled = true);
-
             if (selectedIndex === question.correct) {
+                // 正解の場合
+                buttons.forEach(btn => btn.disabled = true);
                 buttons[selectedIndex].classList.add('correct');
                 correctAnswers++;
                 stars++;
                 feedbackDiv.innerHTML = `<div class="feedback correct">🎉 ${question.explanation}</div>`;
                 playSound('correct');
-            } else {
-                buttons[selectedIndex].classList.add('wrong');
-                buttons[question.correct].classList.add('correct');
-                feedbackDiv.innerHTML = `<div class="feedback wrong">😅 ざんねん！せいかいは「${question.options[question.correct]}」です！</div>`;
-                playSound('wrong');
-            }
 
-            setTimeout(() => {
-                nextQuestion();
-            }, 2000);
+                // 2秒後に次の問題へ
+                setTimeout(() => {
+                    nextQuestion();
+                }, 2000);
+            } else {
+                // 不正解の場合は一時的にフィードバックを表示
+                buttons[selectedIndex].classList.add('wrong');
+                feedbackDiv.innerHTML = `<div class="feedback wrong">😅 もういちど かんがえてみよう！</div>`;
+                playSound('wrong');
+
+                // 1秒後に不正解のボタンをリセットして再挑戦可能に
+                setTimeout(() => {
+                    buttons[selectedIndex].classList.remove('wrong');
+                    feedbackDiv.innerHTML = '';
+                }, 1000);
+            }
         }
 
         function checkTrueFalse(answer) {
@@ -740,24 +747,31 @@
             const buttons = document.querySelectorAll('.option-btn');
             const feedbackDiv = document.getElementById('feedback');
 
-            buttons.forEach(btn => btn.disabled = true);
-
             if (answer === question.answer) {
+                // 正解の場合
+                buttons.forEach(btn => btn.disabled = true);
                 correctAnswers++;
                 stars++;
                 buttons[answer ? 0 : 1].classList.add('correct');
                 feedbackDiv.innerHTML = `<div class="feedback correct">🎉 ${question.explanation}</div>`;
                 playSound('correct');
-            } else {
-                buttons[answer ? 0 : 1].classList.add('wrong');
-                buttons[question.answer ? 0 : 1].classList.add('correct');
-                feedbackDiv.innerHTML = `<div class="feedback wrong">😅 ${question.explanation}</div>`;
-                playSound('wrong');
-            }
 
-            setTimeout(() => {
-                nextQuestion();
-            }, 2000);
+                // 2秒後に次の問題へ
+                setTimeout(() => {
+                    nextQuestion();
+                }, 2000);
+            } else {
+                // 不正解の場合は一時的にフィードバックを表示
+                buttons[answer ? 0 : 1].classList.add('wrong');
+                feedbackDiv.innerHTML = `<div class="feedback wrong">😅 もういちど かんがえてみよう！</div>`;
+                playSound('wrong');
+
+                // 1秒後に不正解のボタンをリセットして再挑戦可能に
+                setTimeout(() => {
+                    buttons[answer ? 0 : 1].classList.remove('wrong');
+                    feedbackDiv.innerHTML = '';
+                }, 1000);
+            }
         }
 
         function nextQuestion() {
