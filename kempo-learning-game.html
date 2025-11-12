@@ -200,53 +200,6 @@
             animation: shake 0.5s ease;
         }
 
-        .matching-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: clamp(15px, 4vw, 30px);
-            margin-top: 15px;
-        }
-
-        .matching-column h3 {
-            text-align: center;
-            margin-bottom: 12px;
-            color: #555;
-            font-size: clamp(1em, 3vw, 1.3em);
-        }
-
-        .matching-item {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            padding: clamp(15px, 3.5vw, 20px);
-            border-radius: 12px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            font-size: clamp(0.9em, 2.8vw, 1.2em);
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            word-break: keep-all;
-        }
-
-        .matching-item:hover, .matching-item:active {
-            transform: scale(1.03);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .matching-item.selected {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .matching-item.matched {
-            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
-            pointer-events: none;
-        }
-
         @keyframes correct-bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
@@ -403,11 +356,6 @@
                 margin-bottom: 15px;
             }
 
-            .matching-container {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
             .options-grid {
                 grid-template-columns: 1fr;
             }
@@ -453,7 +401,6 @@
         // Game mode types
         const GAME_MODES = {
             QUIZ: 'quiz',
-            MATCHING: 'matching',
             FILL_BLANK: 'fillBlank',
             MIXED: 'mixed'
         };
@@ -532,27 +479,6 @@
                     options: ["くつを かう", "ちいさいことを たいせつに", "はやく はしる", "おおきな こえ"],
                     correct: 1,
                     explanation: "せいかい！くつを そろえる など、ちいさなことを たいせつに しましょう！"
-                }
-            ],
-            matching: [
-                {
-                    question: "ことばと いみを せんで つなぎましょう",
-                    pairs: [
-                        { term: "きゃっかしょうこ", definition: "くつを そろえる" },
-                        { term: "がっしょうれい", definition: "あいさつ" },
-                        { term: "さむ", definition: "おそうじ" },
-                        { term: "ふくそう", definition: "きれいな みため" }
-                    ],
-                    explanation: "ぜんぶ せいかい！よく できました！"
-                },
-                {
-                    question: "けんしの こころえを えらびましょう",
-                    pairs: [
-                        { term: "たいど", definition: "れいぎただしく" },
-                        { term: "ことば", definition: "ていねいに はなす" },
-                        { term: "さむ", definition: "こころも きれいに" }
-                    ],
-                    explanation: "すばらしい！ぜんぶ あっています！"
                 }
             ],
             fillBlank: [
@@ -646,7 +572,6 @@
         let correctAnswers = 0;
         let stars = 0;
         let currentQuestions = [];
-        let selectedMatchingItems = [];
 
         function showMenu() {
             const mainContent = document.getElementById('main-content');
@@ -658,13 +583,9 @@
                             📝 クイズモード
                             <div class="description">4つの こたえから えらぼう！</div>
                         </button>
-                        <button class="mode-btn" onclick="startGame('${GAME_MODES.MATCHING}')">
-                            🔗 マッチングゲーム
-                            <div class="description">ことばと いみを つなごう！</div>
-                        </button>
                         <button class="mode-btn" onclick="startGame('${GAME_MODES.FILL_BLANK}')">
                             ✏️ うめもじモード
-                            <div class="description">（　）に ことばを いれよう！</div>
+                            <div class="description">4つの こたえから えらぼう！</div>
                         </button>
                         <button class="mode-btn" onclick="startGame('${GAME_MODES.MIXED}')">
                             🎲 ミックスモード
@@ -680,25 +601,15 @@
             currentQuestionIndex = 0;
             correctAnswers = 0;
             stars = 0;
-            selectedMatchingItems = [];
 
             // Prepare questions based on mode
             if (mode === GAME_MODES.QUIZ) {
                 currentQuestions = shuffleArray([...questionDatabase.multipleChoice]).slice(0, 10);
-            } else if (mode === GAME_MODES.MATCHING) {
-                // Matching mode: ensure exactly 10 questions by repeating if needed
-                const matching = [...questionDatabase.matching];
-                currentQuestions = [];
-                while (currentQuestions.length < 10) {
-                    currentQuestions.push(...matching);
-                }
-                currentQuestions = currentQuestions.slice(0, 10);
             } else if (mode === GAME_MODES.FILL_BLANK) {
                 currentQuestions = shuffleArray([...questionDatabase.fillBlank]).slice(0, 10);
             } else if (mode === GAME_MODES.MIXED) {
                 currentQuestions = [
-                    ...shuffleArray([...questionDatabase.multipleChoice]).slice(0, 4),
-                    ...questionDatabase.matching.slice(0, 1),
+                    ...shuffleArray([...questionDatabase.multipleChoice]).slice(0, 5),
                     ...shuffleArray([...questionDatabase.fillBlank]).slice(0, 3),
                     ...shuffleArray([...questionDatabase.trueFalse]).slice(0, 2)
                 ];
@@ -750,9 +661,7 @@
             `;
 
             // Determine question type and render accordingly
-            if (question.pairs) {
-                html += renderMatching(question);
-            } else if (question.answer !== undefined && typeof question.answer === 'boolean') {
+            if (question.answer !== undefined && typeof question.answer === 'boolean') {
                 html += renderTrueFalse(question);
             } else if (question.options) {
                 html += renderMultipleChoice(question);
@@ -763,47 +672,16 @@
         }
 
         function renderMultipleChoice(question) {
+            const isFillBlank = question.question.includes('（　　）');
+            const badge = isFillBlank ? 'うめもじ もんだい' : '4たく もんだい';
             return `
                 <div class="question-card">
-                    <div class="question-type-badge">4たく もんだい</div>
+                    <div class="question-type-badge">${badge}</div>
                     <div class="question-text">${question.question}</div>
                     <div class="options-grid">
                         ${question.options.map((option, index) => `
                             <button class="option-btn" onclick="checkMultipleChoice(${index})">${option}</button>
                         `).join('')}
-                    </div>
-                    <div id="feedback"></div>
-                </div>
-            `;
-        }
-
-        function renderMatching(question) {
-            const shuffledTerms = shuffleArray([...question.pairs]);
-            const shuffledDefinitions = shuffleArray([...question.pairs]);
-
-            return `
-                <div class="question-card">
-                    <div class="question-type-badge">マッチング</div>
-                    <div class="question-text">${question.question}</div>
-                    <div class="matching-container">
-                        <div class="matching-column">
-                            <h3>ことば</h3>
-                            ${shuffledTerms.map((pair, index) => `
-                                <div class="matching-item" data-type="term" data-value="${pair.term}"
-                                     onclick="selectMatching(this, 'term', '${pair.term}')">
-                                    ${pair.term}
-                                </div>
-                            `).join('')}
-                        </div>
-                        <div class="matching-column">
-                            <h3>いみ</h3>
-                            ${shuffledDefinitions.map((pair, index) => `
-                                <div class="matching-item" data-type="definition" data-value="${pair.definition}"
-                                     onclick="selectMatching(this, 'definition', '${pair.definition}')">
-                                    ${pair.definition}
-                                </div>
-                            `).join('')}
-                        </div>
                     </div>
                     <div id="feedback"></div>
                 </div>
@@ -849,63 +727,6 @@
             }, 1000);
         }
 
-        function selectMatching(element, type, value) {
-            if (element.classList.contains('matched')) return;
-
-            const wasSelected = element.classList.contains('selected');
-
-            // Deselect all items of this type
-            document.querySelectorAll(`[data-type="${type}"]`).forEach(item => {
-                item.classList.remove('selected');
-            });
-
-            if (!wasSelected) {
-                element.classList.add('selected');
-
-                // Check if we have both selections
-                const termSelected = document.querySelector('[data-type="term"].selected');
-                const defSelected = document.querySelector('[data-type="definition"].selected');
-
-                if (termSelected && defSelected) {
-                    checkMatching(termSelected.dataset.value, defSelected.dataset.value);
-                }
-            }
-        }
-
-        function checkMatching(term, definition) {
-            const question = currentQuestions[currentQuestionIndex];
-            const pair = question.pairs.find(p => p.term === term);
-
-            if (pair && pair.definition === definition) {
-                // Correct match
-                document.querySelector(`[data-type="term"][data-value="${term}"]`).classList.add('matched');
-                document.querySelector(`[data-type="definition"][data-value="${definition}"]`).classList.add('matched');
-                playSound('correct');
-
-                // Check if all matched
-                const allMatched = document.querySelectorAll('.matching-item.matched').length === question.pairs.length * 2;
-                if (allMatched) {
-                    correctAnswers++;
-                    stars++;
-                    setTimeout(() => {
-                        const feedbackDiv = document.getElementById('feedback');
-                        feedbackDiv.innerHTML = `
-                            <div class="feedback correct">🎉 ${question.explanation}</div>
-                            <button class="next-btn" onclick="nextQuestion()">つぎへ →</button>
-                        `;
-                    }, 500);
-                }
-            } else {
-                // Wrong match
-                playSound('wrong');
-                setTimeout(() => {
-                    document.querySelectorAll('.matching-item.selected').forEach(item => {
-                        item.classList.remove('selected');
-                    });
-                }, 500);
-            }
-        }
-
         function checkTrueFalse(answer) {
             const question = currentQuestions[currentQuestionIndex];
             const buttons = document.querySelectorAll('.option-btn');
@@ -933,7 +754,6 @@
 
         function nextQuestion() {
             currentQuestionIndex++;
-            selectedMatchingItems = [];
             showQuestion();
         }
 
