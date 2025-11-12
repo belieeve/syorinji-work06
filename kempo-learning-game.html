@@ -247,33 +247,6 @@
             pointer-events: none;
         }
 
-        .fill-blank-input {
-            font-size: clamp(1em, 3.5vw, 1.3em);
-            padding: clamp(12px, 3vw, 15px);
-            border: 3px solid #667eea;
-            border-radius: 10px;
-            margin: 15px 0;
-            width: 100%;
-            max-width: 400px;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        .check-answer-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: clamp(12px, 3vw, 15px) clamp(30px, 6vw, 40px);
-            font-size: clamp(1em, 3vw, 1.3em);
-            cursor: pointer;
-            margin-top: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            min-height: 50px;
-        }
-
         @keyframes correct-bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
@@ -382,6 +355,26 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
 
+        .home-btn {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 30px);
+            font-size: clamp(0.9em, 2.5vw, 1.1em);
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            margin-bottom: 15px;
+        }
+
+        .home-btn:hover, .home-btn:active {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
         .progress-bar {
             background: #e0e0e0;
             border-radius: 10px;
@@ -440,13 +433,6 @@
 
             .question-card {
                 padding: 15px;
-            }
-        }
-
-        /* Prevent zoom on input focus for iOS */
-        @media screen and (max-width: 768px) {
-            input[type="text"] {
-                font-size: 16px !important;
             }
         }
     </style>
@@ -572,33 +558,63 @@
             fillBlank: [
                 {
                     question: "どうじょうに ついたら、くつを（　　）します。",
-                    answer: "そろえ",
-                    alternatives: ["そろえる", "そろえて"],
+                    options: ["ぬぐ", "そろえ", "なげる", "かくす"],
+                    correct: 1,
                     explanation: "せいかい！くつを そろえます！"
                 },
                 {
                     question: "しょうりんじけんぽうの あいさつは（　　）れいです。",
-                    answer: "がっしょう",
-                    alternatives: ["合掌", "合しょう"],
+                    options: ["あくしゅ", "がっしょう", "おじぎ", "てをふる"],
+                    correct: 1,
                     explanation: "せいかい！がっしょうれい です！"
                 },
                 {
                     question: "おそうじを することを（　　）といいます。",
-                    answer: "さむ",
-                    alternatives: ["作務"],
+                    options: ["けいこ", "さむ", "かた", "ほうけん"],
+                    correct: 1,
                     explanation: "せいかい！さむ（作務）です！"
                 },
                 {
                     question: "ながい かみのけは（　　）ます。",
-                    answer: "たばね",
-                    alternatives: ["たばねる", "たばねて"],
+                    options: ["きる", "たばね", "そめる", "かくす"],
+                    correct: 1,
                     explanation: "せいかい！かみのけを たばねます！"
                 },
                 {
                     question: "ひとと はなすときは（　　）な ことばを つかいます。",
-                    answer: "ていねい",
-                    alternatives: ["丁寧", "ていねいな"],
+                    options: ["はやい", "ていねい", "みじかい", "おおきい"],
+                    correct: 1,
                     explanation: "せいかい！ていねいな ことばづかいです！"
+                },
+                {
+                    question: "「きゃっかしょうこ」は（　　）を そろえることです。",
+                    options: ["ほん", "くつ", "つくえ", "かばん"],
+                    correct: 1,
+                    explanation: "せいかい！くつを そろえることです！"
+                },
+                {
+                    question: "れんしゅうの まえには（　　）れいを します。",
+                    options: ["かいさん", "しゅうごう", "がっしょう", "さよなら"],
+                    correct: 2,
+                    explanation: "せいかい！がっしょうれいを します！"
+                },
+                {
+                    question: "どうじょうは（　　）な ばしょです。",
+                    options: ["うるさい", "きたない", "たいせつ", "こわい"],
+                    correct: 2,
+                    explanation: "せいかい！どうじょうは たいせつな ばしょです！"
+                },
+                {
+                    question: "せんせいの はなしは（　　）こうえで ききます。",
+                    options: ["けっしゅ", "あくしゅ", "りょうて", "かたて"],
+                    correct: 0,
+                    explanation: "せいかい！けっしゅこうえで ききます！"
+                },
+                {
+                    question: "つめは（　　）きりましょう。",
+                    options: ["ながく", "みじかく", "ぬって", "かくして"],
+                    correct: 1,
+                    explanation: "せいかい！つめは みじかく きりましょう！"
                 }
             ],
             trueFalse: [
@@ -670,12 +686,18 @@
             if (mode === GAME_MODES.QUIZ) {
                 currentQuestions = shuffleArray([...questionDatabase.multipleChoice]).slice(0, 10);
             } else if (mode === GAME_MODES.MATCHING) {
-                currentQuestions = [...questionDatabase.matching];
+                // Matching mode: ensure exactly 10 questions by repeating if needed
+                const matching = [...questionDatabase.matching];
+                currentQuestions = [];
+                while (currentQuestions.length < 10) {
+                    currentQuestions.push(...matching);
+                }
+                currentQuestions = currentQuestions.slice(0, 10);
             } else if (mode === GAME_MODES.FILL_BLANK) {
-                currentQuestions = shuffleArray([...questionDatabase.fillBlank]).slice(0, 5);
+                currentQuestions = shuffleArray([...questionDatabase.fillBlank]).slice(0, 10);
             } else if (mode === GAME_MODES.MIXED) {
                 currentQuestions = [
-                    ...shuffleArray([...questionDatabase.multipleChoice]).slice(0, 5),
+                    ...shuffleArray([...questionDatabase.multipleChoice]).slice(0, 4),
                     ...questionDatabase.matching.slice(0, 1),
                     ...shuffleArray([...questionDatabase.fillBlank]).slice(0, 3),
                     ...shuffleArray([...questionDatabase.trueFalse]).slice(0, 2)
@@ -706,6 +728,7 @@
 
             // Show scoreboard and progress
             let html = `
+                <button class="home-btn" onclick="showMenu()">🏠 メニューに もどる</button>
                 <div class="score-board">
                     <div class="score-item">
                         <div class="score-label">もんだい</div>
@@ -727,14 +750,12 @@
             `;
 
             // Determine question type and render accordingly
-            if (question.options) {
-                html += renderMultipleChoice(question);
-            } else if (question.pairs) {
+            if (question.pairs) {
                 html += renderMatching(question);
-            } else if (question.answer !== undefined && typeof question.answer === 'string') {
-                html += renderFillBlank(question);
             } else if (question.answer !== undefined && typeof question.answer === 'boolean') {
                 html += renderTrueFalse(question);
+            } else if (question.options) {
+                html += renderMultipleChoice(question);
             }
 
             html += `</div>`;
@@ -784,20 +805,6 @@
                             `).join('')}
                         </div>
                     </div>
-                    <div id="feedback"></div>
-                </div>
-            `;
-        }
-
-        function renderFillBlank(question) {
-            return `
-                <div class="question-card">
-                    <div class="question-type-badge">うめもじ もんだい</div>
-                    <div class="question-text">${question.question}</div>
-                    <input type="text" class="fill-blank-input" id="blank-input"
-                           placeholder="ここに かいてね">
-                    <br>
-                    <button class="check-answer-btn" onclick="checkFillBlank()">こたえを みる</button>
                     <div id="feedback"></div>
                 </div>
             `;
@@ -897,33 +904,6 @@
                     });
                 }, 500);
             }
-        }
-
-        function checkFillBlank() {
-            const question = currentQuestions[currentQuestionIndex];
-            const input = document.getElementById('blank-input');
-            const userAnswer = input.value.trim();
-            const feedbackDiv = document.getElementById('feedback');
-
-            const isCorrect = userAnswer === question.answer ||
-                            (question.alternatives && question.alternatives.includes(userAnswer));
-
-            if (isCorrect) {
-                correctAnswers++;
-                stars++;
-                feedbackDiv.innerHTML = `<div class="feedback correct">🎉 ${question.explanation}</div>`;
-                playSound('correct');
-            } else {
-                feedbackDiv.innerHTML = `<div class="feedback wrong">😅 せいかいは「${question.answer}」です！</div>`;
-                playSound('wrong');
-            }
-
-            input.disabled = true;
-            document.querySelector('.check-answer-btn').style.display = 'none';
-
-            setTimeout(() => {
-                feedbackDiv.innerHTML += `<button class="next-btn" onclick="nextQuestion()">つぎへ →</button>`;
-            }, 1000);
         }
 
         function checkTrueFalse(answer) {
