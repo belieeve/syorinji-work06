@@ -34,6 +34,14 @@
         .header {
             text-align: center;
             margin-bottom: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .header:hover {
+            transform: scale(1.02);
         }
 
         .header h1 {
@@ -387,7 +395,7 @@
 </head>
 <body>
     <div class="game-container">
-        <div class="header">
+        <div class="header" onclick="showMenu()">
             <h1>🥋 少林寺拳法 🥋</h1>
             <div class="subtitle">けんしのこころえゲーム</div>
         </div>
