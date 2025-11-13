@@ -843,15 +843,30 @@
                 oscillator2.start(audioContext.currentTime + 0.15);
                 oscillator2.stop(audioContext.currentTime + 0.6);
             } else {
-                // 不正解音
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                oscillator.frequency.value = 220;
-                gainNode.gain.value = 0.2;
-                oscillator.start();
-                oscillator.stop(audioContext.currentTime + 0.3);
+                // 不正解音「ブブー」（2回の低音）
+                // 最初の「ブ」
+                const oscillator1 = audioContext.createOscillator();
+                const gainNode1 = audioContext.createGain();
+                oscillator1.connect(gainNode1);
+                gainNode1.connect(audioContext.destination);
+                oscillator1.type = 'sawtooth'; // よりブザーらしい音
+                oscillator1.frequency.value = 180; // 低めの音
+                gainNode1.gain.setValueAtTime(0.25, audioContext.currentTime);
+                gainNode1.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.25);
+                oscillator1.start(audioContext.currentTime);
+                oscillator1.stop(audioContext.currentTime + 0.25);
+
+                // 次の「ブー」- 少し遅れて開始
+                const oscillator2 = audioContext.createOscillator();
+                const gainNode2 = audioContext.createGain();
+                oscillator2.connect(gainNode2);
+                gainNode2.connect(audioContext.destination);
+                oscillator2.type = 'sawtooth';
+                oscillator2.frequency.value = 160; // さらに低い音
+                gainNode2.gain.setValueAtTime(0.25, audioContext.currentTime + 0.25);
+                gainNode2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.6);
+                oscillator2.start(audioContext.currentTime + 0.25);
+                oscillator2.stop(audioContext.currentTime + 0.6);
             }
         }
 
