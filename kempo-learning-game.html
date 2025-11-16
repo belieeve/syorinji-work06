@@ -15,25 +15,28 @@
             font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            max-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
-            overflow-x: hidden;
+            padding: 5px;
+            overflow: hidden;
         }
 
         .game-container {
             background: white;
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 15px;
+            padding: 15px;
             max-width: 900px;
             width: 100%;
+            max-height: 98vh;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
         }
 
         .header {
             text-align: center;
-            margin-bottom: clamp(15px, 3vh, 30px);
+            margin-bottom: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
             -webkit-tap-highlight-color: transparent;
@@ -45,15 +48,15 @@
         }
 
         .header h1 {
-            font-size: clamp(1.5em, 5vw, 2.5em);
+            font-size: clamp(1.3em, 4vw, 1.8em);
             color: #d32f2f;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
             word-break: keep-all;
         }
 
         .header .subtitle {
-            font-size: clamp(1em, 3vw, 1.5em);
+            font-size: clamp(0.85em, 2.5vw, 1.1em);
             color: #555;
             word-break: keep-all;
         }
@@ -107,51 +110,51 @@
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: clamp(10px, 2vh, 20px);
-            padding: clamp(10px, 2vh, 20px);
+            gap: 8px;
+            margin-bottom: 8px;
+            padding: 10px;
             background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
-            border-radius: 15px;
+            border-radius: 12px;
         }
 
         .score-item {
             text-align: center;
             flex: 1;
-            min-width: 80px;
+            min-width: 70px;
         }
 
         .score-label {
-            font-size: clamp(0.8em, 2.5vw, 1em);
+            font-size: clamp(0.7em, 2vw, 0.85em);
             color: #555;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .score-value {
-            font-size: clamp(1.3em, 4vw, 2em);
+            font-size: clamp(1.1em, 3vw, 1.4em);
             font-weight: bold;
             color: #d32f2f;
         }
 
         .game-area {
             background: #f5f5f5;
-            border-radius: 15px;
-            padding: clamp(15px, 4vw, 30px);
-            min-height: 200px;
+            border-radius: 12px;
+            padding: 12px;
+            min-height: 150px;
         }
 
         .question-card {
             background: white;
-            border-radius: 15px;
-            padding: clamp(15px, 3vw, 25px);
-            margin-bottom: clamp(10px, 2vh, 15px);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .question-text {
-            font-size: clamp(1.1em, 3.5vw, 1.6em);
+            font-size: clamp(0.95em, 2.8vw, 1.2em);
             color: #333;
-            margin-bottom: clamp(12px, 2vh, 20px);
-            line-height: 1.5;
+            margin-bottom: 10px;
+            line-height: 1.4;
             word-break: keep-all;
         }
 
@@ -159,32 +162,32 @@
             display: inline-block;
             background: #667eea;
             color: white;
-            padding: clamp(5px, 1.5vw, 8px) clamp(12px, 3vw, 15px);
-            border-radius: 20px;
-            font-size: clamp(0.7em, 2vw, 0.9em);
-            margin-bottom: 12px;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: clamp(0.65em, 1.8vw, 0.8em);
+            margin-bottom: 8px;
         }
 
         .options-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
-            gap: clamp(8px, 1.5vh, 12px);
-            margin-top: clamp(10px, 1.5vh, 15px);
+            grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+            gap: 8px;
+            margin-top: 8px;
         }
 
         .option-btn {
             background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
             color: white;
             border: none;
-            border-radius: 12px;
-            padding: clamp(12px, 2.5vh, 20px);
-            font-size: clamp(0.95em, 2.8vw, 1.2em);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: clamp(0.85em, 2.3vw, 1em);
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
-            min-height: clamp(50px, 8vh, 60px);
+            min-height: 45px;
             word-break: keep-all;
         }
 
@@ -221,11 +224,11 @@
 
         .feedback {
             text-align: center;
-            margin-top: clamp(10px, 1.5vh, 15px);
-            font-size: clamp(1em, 3vw, 1.3em);
+            margin-top: 8px;
+            font-size: clamp(0.85em, 2.5vw, 1.05em);
             font-weight: bold;
-            padding: clamp(10px, 2vh, 15px);
-            border-radius: 12px;
+            padding: 8px;
+            border-radius: 10px;
             animation: fadeIn 0.5s ease;
             word-break: keep-all;
         }
@@ -249,17 +252,17 @@
             background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
             color: white;
             border: none;
-            border-radius: 12px;
-            padding: clamp(15px, 3.5vw, 20px) clamp(35px, 8vw, 50px);
-            font-size: clamp(1.1em, 3.2vw, 1.3em);
+            border-radius: 10px;
+            padding: 10px 30px;
+            font-size: clamp(0.95em, 2.8vw, 1.15em);
             cursor: pointer;
-            margin: 15px auto;
+            margin: 10px auto;
             display: block;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
-            min-height: 55px;
+            min-height: 45px;
         }
 
         .back-btn {
@@ -320,15 +323,15 @@
             background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
             color: white;
             border: none;
-            border-radius: 12px;
-            padding: clamp(10px, 2.5vw, 12px) clamp(20px, 5vw, 30px);
-            font-size: clamp(0.9em, 2.5vw, 1.1em);
+            border-radius: 10px;
+            padding: 8px 20px;
+            font-size: clamp(0.8em, 2.2vw, 0.95em);
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .home-btn:hover, .home-btn:active {
@@ -339,8 +342,8 @@
         .progress-bar {
             background: #e0e0e0;
             border-radius: 10px;
-            height: clamp(15px, 2.5vh, 20px);
-            margin-bottom: clamp(10px, 2vh, 15px);
+            height: 12px;
+            margin-bottom: 8px;
             overflow: hidden;
         }
 
@@ -415,6 +418,7 @@
 
         // Question database with different types
         const questionDatabase = {
+            // 1. 基本的な4択問題
             multipleChoice: [
                 {
                     question: "どうじょうについたら、くつをどうしますか？",
@@ -489,6 +493,8 @@
                     explanation: "せいかい！くつを そろえる など、ちいさなことを たいせつに しましょう！"
                 }
             ],
+
+            // 2. 穴埋め問題（基本）
             fillBlank: [
                 {
                     question: "どうじょうに ついたら、くつを（　　）ます。",
@@ -551,6 +557,8 @@
                     explanation: "せいかい！つめは みじかく きりましょう！"
                 }
             ],
+
+            // 3. ○×問題
             trueFalse: [
                 {
                     question: "くつは バラバラに しても いいですか？",
@@ -571,6 +579,208 @@
                     question: "ふくそうは よごれていても だいじょうぶですか？",
                     answer: false,
                     explanation: "ちがいます！きれいな ふくそうを こころがけましょう！"
+                },
+                {
+                    question: "れんしゅうちゅうは、おしゃべりしても いいですか？",
+                    answer: false,
+                    explanation: "ちがいます！れんしゅうちゅうは しゅうちゅうして とりくみましょう！"
+                },
+                {
+                    question: "つめが ながくても、けいこは できますか？",
+                    answer: false,
+                    explanation: "ちがいます！つめは みじかく きって、けいこに のぞみましょう！"
+                }
+            ],
+
+            // 4. 理由を答える問題
+            whyQuestion: [
+                {
+                    question: "なぜ くつを そろえるのですか？",
+                    options: ["みためが きれいだから", "ちいさいことを たいせつに するため", "せんせいに おこられるから", "きまりだから"],
+                    correct: 1,
+                    explanation: "せいかい！ちいさいことを たいせつに する こころを やしないます！"
+                },
+                {
+                    question: "なぜ がっしょうれいを するのですか？",
+                    options: ["かっこいいから", "あいてを うやまう きもちを あらわすため", "きまりだから", "むずかしいから"],
+                    correct: 1,
+                    explanation: "せいかい！あいてを うやまう きもちを あらわします！"
+                },
+                {
+                    question: "なぜ おそうじ（さむ）を するのですか？",
+                    options: ["よごれているから", "こころも きれいに するため", "せんせいの めいれいだから", "みんなで やるから"],
+                    correct: 1,
+                    explanation: "せいかい！おそうじで こころも きれいに します！"
+                },
+                {
+                    question: "なぜ ていねいな ことばづかいを するのですか？",
+                    options: ["むずかしいから", "あいてを たいせつに するため", "おとなっぽいから", "せんせいが いうから"],
+                    correct: 1,
+                    explanation: "せいかい！あいてを たいせつに する きもちを あらわします！"
+                }
+            ],
+
+            // 5. シチュエーション問題（どうする？）
+            situation: [
+                {
+                    question: "どうじょうに ついたとき、まず なにを しますか？",
+                    options: ["すぐ あそぶ", "くつを そろえて がっしょうれい", "ともだちと おしゃべり", "ねころぶ"],
+                    correct: 1,
+                    explanation: "せいかい！まず くつを そろえて、がっしょうれいを します！"
+                },
+                {
+                    question: "せんせいが はなしを はじめたら、どうしますか？",
+                    options: ["あそびつづける", "けっしゅこうえで きく", "ねころぶ", "でていく"],
+                    correct: 1,
+                    explanation: "せいかい！けっしゅこうえで、しっかり ききましょう！"
+                },
+                {
+                    question: "けいこが おわったら、なにを しますか？",
+                    options: ["すぐ かえる", "おそうじ（さむ）を する", "あそぶ", "ねる"],
+                    correct: 1,
+                    explanation: "せいかい！けいこの あとは、おそうじ（さむ）を します！"
+                },
+                {
+                    question: "ともだちと ぶつかって しまったら、どうしますか？",
+                    options: ["しらんぷり", "「ごめんなさい」と あやまる", "わらう", "にげる"],
+                    correct: 1,
+                    explanation: "せいかい！すぐに「ごめんなさい」と あやまりましょう！"
+                }
+            ],
+
+            // 6. 逆穴埋め問題（答えが先、質問に穴）
+            reverseFillBlank: [
+                {
+                    question: "「そろえます」← どうじょうに ついたら、（　　）を そろえます。",
+                    options: ["ほん", "くつ", "つくえ", "かみ"],
+                    correct: 1,
+                    explanation: "せいかい！くつを そろえます！"
+                },
+                {
+                    question: "「がっしょうれい」← しょうりんじけんぽうの あいさつは（　　）です。",
+                    options: ["おじぎ", "がっしょうれい", "あくしゅ", "おはよう"],
+                    correct: 1,
+                    explanation: "せいかい！がっしょうれい です！"
+                },
+                {
+                    question: "「さむ」← （　　）を することを さむ といいます。",
+                    options: ["けいこ", "おそうじ", "べんきょう", "ごはん"],
+                    correct: 1,
+                    explanation: "せいかい！おそうじを さむ といいます！"
+                }
+            ],
+
+            // 7. 文章完成問題
+            completeSentence: [
+                {
+                    question: "くつを そろえると、",
+                    options: ["こころも そろう", "あしが つかれる", "はやく はしれる", "ともだちが ふえる"],
+                    correct: 0,
+                    explanation: "せいかい！くつを そろえると、こころも そろいます！"
+                },
+                {
+                    question: "ていねいな ことばを つかうと、",
+                    options: ["つかれる", "あいてが よろこぶ", "じかんが かかる", "むずかしい"],
+                    correct: 1,
+                    explanation: "せいかい！ていねいな ことばで、あいてが よろこびます！"
+                },
+                {
+                    question: "けっしゅこうえで はなしを きくと、",
+                    options: ["ねむくなる", "よく きこえない", "しっかり おぼえられる", "つかれる"],
+                    correct: 2,
+                    explanation: "せいかい！けっしゅこうえで きくと、しっかり おぼえられます！"
+                }
+            ],
+
+            // 8. 間違い探し問題
+            findMistake: [
+                {
+                    question: "つぎの なかで、まちがって いるのは どれですか？",
+                    options: ["くつを そろえる", "つめを のばす", "ていねいに はなす", "がっしょうれいを する"],
+                    correct: 1,
+                    explanation: "せいかい！つめは のばさず、みじかく きりましょう！"
+                },
+                {
+                    question: "どうじょうで やっては いけないのは どれですか？",
+                    options: ["がっしょうれい", "おそうじ", "おしゃべり", "けいこ"],
+                    correct: 2,
+                    explanation: "せいかい！けいこちゅうの おしゃべりは やめましょう！"
+                },
+                {
+                    question: "けんしの こころえに あわないのは どれですか？",
+                    options: ["ちいさいことを たいせつに", "よごれた ふくそう", "れいぎただしく", "こころを きれいに"],
+                    correct: 1,
+                    explanation: "せいかい！きれいな ふくそうを こころがけましょう！"
+                }
+            ],
+
+            // 9. 同じ意味の言葉
+            sameMeaning: [
+                {
+                    question: "「きゃっかしょうこ」と おなじ いみは どれですか？",
+                    options: ["くつを そろえる", "てを あらう", "あいさつする", "べんきょうする"],
+                    correct: 0,
+                    explanation: "せいかい！きゃっかしょうこ は くつを そろえることです！"
+                },
+                {
+                    question: "「さむ」と おなじ いみは どれですか？",
+                    options: ["けいこ", "おそうじ", "ごはん", "あいさつ"],
+                    correct: 1,
+                    explanation: "せいかい！さむ は おそうじの ことです！"
+                },
+                {
+                    question: "「うやまう」と おなじ いみは どれですか？",
+                    options: ["たたかう", "そんけいする", "あそぶ", "はしる"],
+                    correct: 1,
+                    explanation: "せいかい！うやまう は そんけいする という いみです！"
+                }
+            ],
+
+            // 10. 順番問題
+            orderQuestion: [
+                {
+                    question: "どうじょうに ついたら、どの じゅんばんで やりますか？",
+                    options: ["①けいこ ②くつを そろえる ③がっしょうれい", "①くつを そろえる ②がっしょうれい ③けいこ", "①がっしょうれい ②けいこ ③くつを そろえる", "①けいこ ②がっしょうれい ③くつを そろえる"],
+                    correct: 1,
+                    explanation: "せいかい！くつを そろえて、がっしょうれいして、けいこ です！"
+                },
+                {
+                    question: "けいこが おわったら、どの じゅんばんですか？",
+                    options: ["①かえる ②おそうじ ③がっしょうれい", "①おそうじ ②がっしょうれい ③かえる", "①がっしょうれい ②かえる ③おそうじ", "①がっしょうれい ②おそうじ ③かえる"],
+                    correct: 3,
+                    explanation: "せいかい！がっしょうれい、おそうじ、かえる の じゅんばん です！"
+                }
+            ],
+
+            // 11. 複数穴埋め問題
+            multipleBlank: [
+                {
+                    question: "しょうりんじけんぽうで、（　A　）くて、（　B　）ひとに なります。",
+                    options: ["A: つよ B: やさしい", "A: はや B: つよい", "A: おお B: ちいさい", "A: たか B: ひくい"],
+                    correct: 0,
+                    explanation: "せいかい！つよくて、やさしい ひとを めざします！"
+                },
+                {
+                    question: "（　A　）の みだれは、（　B　）の みだれです。",
+                    options: ["A: ふくそう B: こころ", "A: つくえ B: へや", "A: かみ B: からだ", "A: ほん B: あたま"],
+                    correct: 0,
+                    explanation: "せいかい！ふくそうの みだれは、こころの みだれ です！"
+                }
+            ],
+
+            // 12. 「いつ」系の時間問題
+            whenQuestion: [
+                {
+                    question: "がっしょうれいを するのは いつですか？",
+                    options: ["けいこの おわりだけ", "けいこの はじめと おわり", "すきな とき", "いちども しない"],
+                    correct: 1,
+                    explanation: "せいかい！けいこの はじめと おわりに がっしょうれいを します！"
+                },
+                {
+                    question: "くつを そろえるのは いつですか？",
+                    options: ["かえる とき", "どうじょうに はいる とき", "けいこの あと", "すきな とき"],
+                    correct: 1,
+                    explanation: "せいかい！どうじょうに はいる ときに くつを そろえます！"
                 }
             ]
         };
@@ -616,10 +826,20 @@
             } else if (mode === GAME_MODES.FILL_BLANK) {
                 currentQuestions = shuffleArray([...questionDatabase.fillBlank]).slice(0, 10);
             } else if (mode === GAME_MODES.MIXED) {
+                // ミックスモード：すべてのパターンから選ぶ
                 currentQuestions = [
-                    ...shuffleArray([...questionDatabase.multipleChoice]).slice(0, 5),
-                    ...shuffleArray([...questionDatabase.fillBlank]).slice(0, 3),
-                    ...shuffleArray([...questionDatabase.trueFalse]).slice(0, 2)
+                    ...shuffleArray([...questionDatabase.multipleChoice]).slice(0, 2),
+                    ...shuffleArray([...questionDatabase.fillBlank]).slice(0, 1),
+                    ...shuffleArray([...questionDatabase.trueFalse]).slice(0, 1),
+                    ...shuffleArray([...questionDatabase.whyQuestion]).slice(0, 1),
+                    ...shuffleArray([...questionDatabase.situation]).slice(0, 1),
+                    ...shuffleArray([...questionDatabase.reverseFillBlank]).slice(0, 1),
+                    ...shuffleArray([...questionDatabase.completeSentence]).slice(0, 1),
+                    ...shuffleArray([...questionDatabase.findMistake]).slice(0, 1),
+                    ...shuffleArray([...questionDatabase.sameMeaning]).slice(0, 1),
+                    ...shuffleArray([...questionDatabase.orderQuestion]).slice(0, 1),
+                    ...shuffleArray([...questionDatabase.multipleBlank]).slice(0, 1),
+                    ...shuffleArray([...questionDatabase.whenQuestion]).slice(0, 1)
                 ];
                 currentQuestions = shuffleArray(currentQuestions);
             }
@@ -679,9 +899,37 @@
             mainContent.innerHTML = html;
         }
 
+        function getQuestionBadge(question) {
+            // 問題タイプを判定してバッジを返す
+            const q = question.question;
+
+            if (q.includes('（　A　）') && q.includes('（　B　）')) {
+                return '2つ うめもじ';
+            } else if (q.includes('「') && q.includes('←')) {
+                return 'ぎゃく うめもじ';
+            } else if (q.includes('（　　）')) {
+                return 'うめもじ もんだい';
+            } else if (q.startsWith('なぜ')) {
+                return 'りゆう もんだい';
+            } else if (q.includes('どうしますか') || q.includes('なにを しますか')) {
+                return 'どうする？ もんだい';
+            } else if (q.includes('まちがって') || q.includes('いけないのは')) {
+                return 'まちがいさがし';
+            } else if (q.includes('おなじ いみ')) {
+                return 'おなじ いみ';
+            } else if (q.includes('じゅんばん')) {
+                return 'じゅんばん もんだい';
+            } else if (q.includes('いつ')) {
+                return 'いつ？ もんだい';
+            } else if (q.endsWith('、')) {
+                return 'ぶんしょう かんせい';
+            } else {
+                return '4たく もんだい';
+            }
+        }
+
         function renderMultipleChoice(question) {
-            const isFillBlank = question.question.includes('（　　）');
-            const badge = isFillBlank ? 'うめもじ もんだい' : '4たく もんだい';
+            const badge = getQuestionBadge(question);
             return `
                 <div class="question-card">
                     <div class="question-type-badge">${badge}</div>
