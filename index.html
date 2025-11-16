@@ -253,6 +253,31 @@
             color: white;
         }
 
+        .feedback-next-btn {
+            background: white;
+            color: #f44336;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-size: clamp(0.9em, 3vw, 1.1em);
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .feedback-next-btn:hover, .feedback-next-btn:active {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .feedback.correct .feedback-next-btn {
+            color: #4caf50;
+        }
+
         @keyframes popIn {
             0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
             50% { transform: translate(-50%, -50%) scale(1.1); }
@@ -998,21 +1023,17 @@
                     nextQuestion();
                 }, 2000);
             } else {
-                // 不正解の場合は正解を表示して次へ
+                // 不正解の場合は正解を表示してボタンで次へ
                 buttons.forEach(btn => btn.disabled = true);
                 buttons[selectedIndex].classList.add('wrong');
                 buttons[question.correct].classList.add('correct');
-                feedbackDiv.innerHTML = `<div class="feedback wrong">😅 ざんねん！せいかいは「${question.options[question.correct]}」でした！</div>`;
+                feedbackDiv.innerHTML = `
+                    <div class="feedback wrong">
+                        😅 ざんねん！せいかいは「${question.options[question.correct]}」でした！<br>
+                        ${question.explanation}
+                        <br><button class="feedback-next-btn" onclick="nextQuestion()">つぎのもんだい ➡️</button>
+                    </div>`;
                 playSound('wrong');
-
-                // 1.7秒後にフェードアウト開始、2秒後に次の問題へ
-                setTimeout(() => {
-                    const feedback = feedbackDiv.querySelector('.feedback');
-                    if (feedback) feedback.classList.add('fade-out');
-                }, 1700);
-                setTimeout(() => {
-                    nextQuestion();
-                }, 2000);
             }
         }
 
@@ -1039,21 +1060,17 @@
                     nextQuestion();
                 }, 2000);
             } else {
-                // 不正解の場合は正解を表示して次へ
+                // 不正解の場合は正解を表示してボタンで次へ
                 buttons.forEach(btn => btn.disabled = true);
                 buttons[answer ? 0 : 1].classList.add('wrong');
                 buttons[question.answer ? 0 : 1].classList.add('correct');
-                feedbackDiv.innerHTML = `<div class="feedback wrong">😅 ${question.explanation}</div>`;
+                feedbackDiv.innerHTML = `
+                    <div class="feedback wrong">
+                        😅 ざんねん！<br>
+                        ${question.explanation}
+                        <br><button class="feedback-next-btn" onclick="nextQuestion()">つぎのもんだい ➡️</button>
+                    </div>`;
                 playSound('wrong');
-
-                // 1.7秒後にフェードアウト開始、2秒後に次の問題へ
-                setTimeout(() => {
-                    const feedback = feedbackDiv.querySelector('.feedback');
-                    if (feedback) feedback.classList.add('fade-out');
-                }, 1700);
-                setTimeout(() => {
-                    nextQuestion();
-                }, 2000);
             }
         }
 
