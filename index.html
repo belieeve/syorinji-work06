@@ -255,6 +255,15 @@
             100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
+        @keyframes popOut {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+        }
+
+        .feedback.fade-out {
+            animation: popOut 0.3s ease forwards;
+        }
+
         .next-btn, .back-btn {
             background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
             color: white;
@@ -976,7 +985,11 @@
                 feedbackDiv.innerHTML = `<div class="feedback correct">🎉 ${question.explanation}</div>`;
                 playSound('correct');
 
-                // 2秒後に次の問題へ
+                // 1.7秒後にフェードアウト開始、2秒後に次の問題へ
+                setTimeout(() => {
+                    const feedback = feedbackDiv.querySelector('.feedback');
+                    if (feedback) feedback.classList.add('fade-out');
+                }, 1700);
                 setTimeout(() => {
                     nextQuestion();
                 }, 2000);
@@ -988,7 +1001,11 @@
                 feedbackDiv.innerHTML = `<div class="feedback wrong">😅 ざんねん！せいかいは「${question.options[question.correct]}」でした！</div>`;
                 playSound('wrong');
 
-                // 2秒後に次の問題へ
+                // 1.7秒後にフェードアウト開始、2秒後に次の問題へ
+                setTimeout(() => {
+                    const feedback = feedbackDiv.querySelector('.feedback');
+                    if (feedback) feedback.classList.add('fade-out');
+                }, 1700);
                 setTimeout(() => {
                     nextQuestion();
                 }, 2000);
@@ -1009,7 +1026,11 @@
                 feedbackDiv.innerHTML = `<div class="feedback correct">🎉 ${question.explanation}</div>`;
                 playSound('correct');
 
-                // 2秒後に次の問題へ
+                // 1.7秒後にフェードアウト開始、2秒後に次の問題へ
+                setTimeout(() => {
+                    const feedback = feedbackDiv.querySelector('.feedback');
+                    if (feedback) feedback.classList.add('fade-out');
+                }, 1700);
                 setTimeout(() => {
                     nextQuestion();
                 }, 2000);
@@ -1021,7 +1042,11 @@
                 feedbackDiv.innerHTML = `<div class="feedback wrong">😅 ${question.explanation}</div>`;
                 playSound('wrong');
 
-                // 2秒後に次の問題へ
+                // 1.7秒後にフェードアウト開始、2秒後に次の問題へ
+                setTimeout(() => {
+                    const feedback = feedbackDiv.querySelector('.feedback');
+                    if (feedback) feedback.classList.add('fade-out');
+                }, 1700);
                 setTimeout(() => {
                     nextQuestion();
                 }, 2000);
