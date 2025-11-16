@@ -253,6 +253,28 @@
             color: white;
         }
 
+        .feedback-message {
+            font-size: clamp(1.1em, 3.8vw, 1.5em);
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .feedback-answer {
+            font-size: clamp(0.95em, 3.2vw, 1.3em);
+            margin: 12px 0;
+            padding: 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            line-height: 1.5;
+        }
+
+        .feedback-explanation {
+            font-size: clamp(0.85em, 2.8vw, 1.1em);
+            margin: 12px 0;
+            line-height: 1.6;
+            font-weight: normal;
+        }
+
         .feedback-next-btn {
             background: white;
             color: #f44336;
@@ -1029,9 +1051,10 @@
                 buttons[question.correct].classList.add('correct');
                 feedbackDiv.innerHTML = `
                     <div class="feedback wrong">
-                        😅 ざんねん！せいかいは「${question.options[question.correct]}」でした！<br>
-                        ${question.explanation}
-                        <br><button class="feedback-next-btn" onclick="nextQuestion()">つぎのもんだい ➡️</button>
+                        <div class="feedback-message">😅 ざんねん！</div>
+                        <div class="feedback-answer">せいかいは<br>「${question.options[question.correct]}」</div>
+                        <div class="feedback-explanation">${question.explanation}</div>
+                        <button class="feedback-next-btn" onclick="nextQuestion()">つぎのもんだい ➡️</button>
                     </div>`;
                 playSound('wrong');
             }
@@ -1066,9 +1089,9 @@
                 buttons[question.answer ? 0 : 1].classList.add('correct');
                 feedbackDiv.innerHTML = `
                     <div class="feedback wrong">
-                        😅 ざんねん！<br>
-                        ${question.explanation}
-                        <br><button class="feedback-next-btn" onclick="nextQuestion()">つぎのもんだい ➡️</button>
+                        <div class="feedback-message">😅 ざんねん！</div>
+                        <div class="feedback-explanation">${question.explanation}</div>
+                        <button class="feedback-next-btn" onclick="nextQuestion()">つぎのもんだい ➡️</button>
                     </div>`;
                 playSound('wrong');
             }
