@@ -826,7 +826,7 @@
             } else if (mode === GAME_MODES.FILL_BLANK) {
                 currentQuestions = shuffleArray([...questionDatabase.fillBlank]).slice(0, 10);
             } else if (mode === GAME_MODES.MIXED) {
-                // ミックスモード：すべてのパターンから選ぶ
+                // ミックスモード：すべてのパターンから選ぶ（合計10問）
                 currentQuestions = [
                     ...shuffleArray([...questionDatabase.multipleChoice]).slice(0, 2),
                     ...shuffleArray([...questionDatabase.fillBlank]).slice(0, 1),
@@ -836,10 +836,7 @@
                     ...shuffleArray([...questionDatabase.reverseFillBlank]).slice(0, 1),
                     ...shuffleArray([...questionDatabase.completeSentence]).slice(0, 1),
                     ...shuffleArray([...questionDatabase.findMistake]).slice(0, 1),
-                    ...shuffleArray([...questionDatabase.sameMeaning]).slice(0, 1),
-                    ...shuffleArray([...questionDatabase.orderQuestion]).slice(0, 1),
-                    ...shuffleArray([...questionDatabase.multipleBlank]).slice(0, 1),
-                    ...shuffleArray([...questionDatabase.whenQuestion]).slice(0, 1)
+                    ...shuffleArray([...questionDatabase.sameMeaning]).slice(0, 1)
                 ];
                 currentQuestions = shuffleArray(currentQuestions);
             }
@@ -977,16 +974,17 @@
                     nextQuestion();
                 }, 2000);
             } else {
-                // 不正解の場合は一時的にフィードバックを表示
+                // 不正解の場合は正解を表示して次へ
+                buttons.forEach(btn => btn.disabled = true);
                 buttons[selectedIndex].classList.add('wrong');
-                feedbackDiv.innerHTML = `<div class="feedback wrong">😅 もういちど かんがえてみよう！</div>`;
+                buttons[question.correct].classList.add('correct');
+                feedbackDiv.innerHTML = `<div class="feedback wrong">😅 ざんねん！せいかいは「${question.options[question.correct]}」でした！</div>`;
                 playSound('wrong');
 
-                // 1秒後に不正解のボタンをリセットして再挑戦可能に
+                // 2秒後に次の問題へ
                 setTimeout(() => {
-                    buttons[selectedIndex].classList.remove('wrong');
-                    feedbackDiv.innerHTML = '';
-                }, 1000);
+                    nextQuestion();
+                }, 2000);
             }
         }
 
@@ -1009,16 +1007,17 @@
                     nextQuestion();
                 }, 2000);
             } else {
-                // 不正解の場合は一時的にフィードバックを表示
+                // 不正解の場合は正解を表示して次へ
+                buttons.forEach(btn => btn.disabled = true);
                 buttons[answer ? 0 : 1].classList.add('wrong');
-                feedbackDiv.innerHTML = `<div class="feedback wrong">😅 もういちど かんがえてみよう！</div>`;
+                buttons[question.answer ? 0 : 1].classList.add('correct');
+                feedbackDiv.innerHTML = `<div class="feedback wrong">😅 ${question.explanation}</div>`;
                 playSound('wrong');
 
-                // 1秒後に不正解のボタンをリセットして再挑戦可能に
+                // 2秒後に次の問題へ
                 setTimeout(() => {
-                    buttons[answer ? 0 : 1].classList.remove('wrong');
-                    feedbackDiv.innerHTML = '';
-                }, 1000);
+                    nextQuestion();
+                }, 2000);
             }
         }
 
