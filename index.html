@@ -1033,7 +1033,7 @@
                 buttons[selectedIndex].classList.add('correct');
                 correctAnswers++;
                 stars++;
-                feedbackDiv.innerHTML = `<div class="feedback correct">🎉 ${question.explanation}</div>`;
+                feedbackDiv.innerHTML = `<div class="feedback correct">🎉 せいかい！</div>`;
                 playSound('correct');
 
                 // 1.7秒後にフェードアウト開始、2秒後に次の問題へ
@@ -1071,7 +1071,7 @@
                 correctAnswers++;
                 stars++;
                 buttons[answer ? 0 : 1].classList.add('correct');
-                feedbackDiv.innerHTML = `<div class="feedback correct">🎉 ${question.explanation}</div>`;
+                feedbackDiv.innerHTML = `<div class="feedback correct">🎉 せいかい！</div>`;
                 playSound('correct');
 
                 // 1.7秒後にフェードアウト開始、2秒後に次の問題へ
