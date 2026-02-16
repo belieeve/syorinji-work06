@@ -457,11 +457,14 @@
             background: white;
             margin: 0 auto 12px;
             touch-action: none;
+            max-width: 100%;
         }
 
         .canvas-wrapper canvas {
             display: block;
             border-radius: 9px;
+            max-width: 100%;
+            height: auto;
         }
 
         .tracing-buttons {
@@ -475,14 +478,14 @@
         .tracing-btn {
             border: none;
             border-radius: 10px;
-            padding: 10px 24px;
-            font-size: clamp(0.95em, 2.8vw, 1.15em);
+            padding: 12px 28px;
+            font-size: clamp(1em, 3vw, 1.2em);
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
-            min-height: 45px;
+            min-height: 50px;
             color: white;
         }
 
@@ -497,6 +500,12 @@
 
         .tracing-btn.next-trace-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: none;
+        }
+
+        .tracing-btn.next-trace-btn.visible {
+            display: inline-block;
+            animation: popIn 0.4s ease;
         }
 
         .tracing-toggle-btns {
@@ -578,6 +587,21 @@
             .options-grid {
                 grid-template-columns: 1fr;
             }
+
+            .tracing-area {
+                padding: 5px;
+            }
+
+            .tracing-header {
+                margin-bottom: 8px;
+            }
+
+            .tracing-btn {
+                padding: 12px 20px;
+                min-height: 48px;
+                flex: 1;
+                min-width: 120px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -586,7 +610,7 @@
             }
 
             .game-container {
-                padding: 12px;
+                padding: 10px;
                 border-radius: 12px;
             }
 
@@ -600,6 +624,50 @@
 
             .question-card {
                 padding: 15px;
+            }
+
+            .canvas-wrapper {
+                border-width: 2px;
+                border-radius: 8px;
+                margin-bottom: 8px;
+            }
+
+            .tracing-progress {
+                margin-bottom: 5px;
+            }
+
+            .tracing-char-info {
+                margin-bottom: 3px;
+            }
+
+            .tracing-reading {
+                margin-bottom: 6px;
+            }
+
+            .fill-sentence {
+                font-size: clamp(1em, 3vw, 1.3em);
+                padding: 8px;
+                margin-bottom: 8px;
+            }
+
+            .tracing-buttons {
+                gap: 8px;
+                margin-top: 8px;
+            }
+
+            .tracing-btn {
+                padding: 10px 16px;
+                font-size: clamp(0.9em, 2.8vw, 1.1em);
+                min-height: 44px;
+            }
+
+            .tracing-toggle-btns {
+                gap: 6px;
+                margin-bottom: 8px;
+            }
+
+            .tracing-toggle-btn {
+                padding: 5px 12px;
             }
         }
     </style>
@@ -1059,6 +1127,7 @@
         let tracingCanvas = null;
         let tracingCtx = null;
         let isDrawing = false;
+        let hasDrawn = false;
         let tracingIndex = 0;
         let tracingSubMode = 'kanji'; // 'kanji' or 'hiragana'
 
@@ -1456,10 +1525,13 @@
             const canvas = document.getElementById('tracing-canvas');
             tracingCanvas = canvas;
             tracingCtx = canvas.getContext('2d');
+            hasDrawn = false;
 
-            // Canvasサイズを画面に合わせる
-            const maxSize = Math.min(window.innerWidth - 60, 350);
-            const size = Math.max(200, maxSize);
+            // Canvasサイズを画面に合わせる（コンテナ幅ベース）
+            const container = document.querySelector('.game-container');
+            const containerWidth = container ? container.clientWidth - 30 : window.innerWidth - 40;
+            const maxSize = Math.min(containerWidth, 350);
+            const size = Math.max(180, maxSize);
             canvas.width = size;
             canvas.height = size;
 
@@ -1508,6 +1580,14 @@
             };
         }
 
+        function showNextButton() {
+            if (!hasDrawn) {
+                hasDrawn = true;
+                const nextBtn = document.querySelector('.next-trace-btn');
+                if (nextBtn) nextBtn.classList.add('visible');
+            }
+        }
+
         function startDraw(e) {
             isDrawing = true;
             const pos = getCanvasPos(e);
@@ -1524,6 +1604,7 @@
             tracingCtx.strokeStyle = '#333';
             tracingCtx.lineTo(pos.x, pos.y);
             tracingCtx.stroke();
+            showNextButton();
         }
 
         function stopDraw() {
@@ -1555,6 +1636,10 @@
             const item = data[tracingIndex];
             const guideText = currentMode === GAME_MODES.FULL_TRACE ? item.char : item.answer;
             drawGuideText(guideText, size);
+            // つぎへボタンを隠す
+            hasDrawn = false;
+            const nextBtn = document.querySelector('.next-trace-btn');
+            if (nextBtn) nextBtn.classList.remove('visible');
         }
 
         function nextTrace() {
