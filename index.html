@@ -439,11 +439,17 @@
         /* なぞり練習モード用CSS */
         .tracing-area {
             text-align: center;
-            padding: 10px;
+            padding: 5px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 0;
         }
 
         .tracing-header {
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+            flex-shrink: 0;
         }
 
         .tracing-progress {
@@ -479,9 +485,10 @@
             border: 3px solid #667eea;
             border-radius: 12px;
             background: white;
-            margin: 0 auto 12px;
+            margin: 0 auto 8px;
             touch-action: none;
             max-width: 100%;
+            flex-shrink: 1;
         }
 
         .canvas-wrapper canvas {
@@ -496,7 +503,8 @@
             justify-content: center;
             gap: 12px;
             flex-wrap: wrap;
-            margin-top: 10px;
+            margin-top: 5px;
+            flex-shrink: 0;
         }
 
         .tracing-btn {
@@ -1538,8 +1546,26 @@
 
             const container = document.querySelector('.game-container');
             const containerWidth = container ? container.clientWidth - 30 : window.innerWidth - 40;
-            const maxSize = Math.min(containerWidth, 350);
-            const size = Math.max(180, maxSize);
+
+            // 画面に収まるよう残りの高さからキャンバスサイズを計算
+            const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+            const header = document.querySelector('.header');
+            const homeBtn = document.querySelector('.home-btn');
+            const tracingHeader = document.querySelector('.tracing-header');
+            const tracingButtons = document.querySelector('.tracing-buttons');
+
+            // 各要素の高さを取得
+            const headerH = header ? header.offsetHeight : 0;
+            const homeBtnH = homeBtn ? homeBtn.offsetHeight + 10 : 0; // margin含む
+            const tracingHeaderH = tracingHeader ? tracingHeader.offsetHeight : 0;
+            const buttonsH = tracingButtons ? 60 : 60; // ボタン領域の最低高さ
+            const containerPadding = 30; // コンテナの上下padding + border等の余白
+            const canvasMargin = 20; // キャンバスのmarginやborder
+
+            const availableHeight = viewportHeight - headerH - homeBtnH - tracingHeaderH - buttonsH - containerPadding - canvasMargin;
+            const maxByHeight = Math.max(150, availableHeight);
+            const maxByWidth = Math.min(containerWidth, 350);
+            const size = Math.min(maxByWidth, maxByHeight);
             canvas.width = size;
             canvas.height = size;
 
