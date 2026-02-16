@@ -1618,7 +1618,7 @@
                 'ょ': [[0.45, 0.2], [0.25, 0.55]],
                 'う': [[0.45, 0.15], [0.4, 0.35]],
                 'こ': [[0.25, 0.3], [0.25, 0.7]],
-                'が': [[0.15, 0.25], [0.45, 0.15], [0.72, 0.35], [0.78, 0.15], [0.85, 0.25]],
+                'が': [[0.15, 0.25], [0.45, 0.15], [0.72, 0.35], [0.88, 0.08], [0.88, 0.2]],
                 'れ': [[0.2, 0.15], [0.45, 0.15]],
                 'い': [[0.3, 0.2], [0.65, 0.2]],
                 'さ': [[0.2, 0.2], [0.15, 0.42], [0.5, 0.35]],
@@ -1627,15 +1627,15 @@
                 'く': [[0.6, 0.15]],
                 'そ': [[0.3, 0.2]],
                 'た': [[0.2, 0.22], [0.38, 0.15], [0.15, 0.6], [0.55, 0.55]],
-                'ど': [[0.4, 0.15], [0.72, 0.25], [0.78, 0.4]],
+                'ど': [[0.4, 0.15], [0.82, 0.15], [0.82, 0.3]],
                 'と': [[0.45, 0.15], [0.35, 0.5]],
-                'ば': [[0.2, 0.15], [0.45, 0.2], [0.5, 0.55], [0.75, 0.15], [0.82, 0.28]],
+                'ば': [[0.2, 0.15], [0.45, 0.2], [0.5, 0.55], [0.85, 0.08], [0.85, 0.22]],
             };
 
             const positions = strokePositions[char];
             if (!positions) return;
 
-            const numSize = size * 0.08;
+            const numSize = size * 0.09;
             tracingCtx.font = `bold ${numSize}px sans-serif`;
             tracingCtx.textAlign = 'center';
             tracingCtx.textBaseline = 'middle';
@@ -1644,10 +1644,16 @@
                 const x = positions[i][0] * size;
                 const y = positions[i][1] * size;
 
-                // 赤い丸の背景
-                tracingCtx.fillStyle = 'rgba(231, 76, 60, 0.7)';
+                // 白い縁取り（見やすさ向上）
+                tracingCtx.fillStyle = 'white';
                 tracingCtx.beginPath();
-                tracingCtx.arc(x, y, numSize * 0.7, 0, Math.PI * 2);
+                tracingCtx.arc(x, y, numSize * 0.85, 0, Math.PI * 2);
+                tracingCtx.fill();
+
+                // 赤い丸の背景
+                tracingCtx.fillStyle = 'rgba(231, 76, 60, 0.85)';
+                tracingCtx.beginPath();
+                tracingCtx.arc(x, y, numSize * 0.75, 0, Math.PI * 2);
                 tracingCtx.fill();
 
                 // 白い番号
