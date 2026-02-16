@@ -420,6 +420,147 @@
             transition: width 0.5s ease;
         }
 
+        /* なぞり練習モード用CSS */
+        .tracing-area {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .tracing-header {
+            margin-bottom: 10px;
+        }
+
+        .tracing-progress {
+            font-size: clamp(0.9em, 2.5vw, 1.1em);
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .tracing-char-info {
+            font-size: clamp(1em, 3vw, 1.3em);
+            color: #333;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .tracing-reading {
+            font-size: clamp(0.85em, 2.3vw, 1em);
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .canvas-wrapper {
+            display: inline-block;
+            position: relative;
+            border: 3px solid #667eea;
+            border-radius: 12px;
+            background: white;
+            margin: 0 auto 12px;
+            touch-action: none;
+        }
+
+        .canvas-wrapper canvas {
+            display: block;
+            border-radius: 9px;
+        }
+
+        .tracing-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .tracing-btn {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 24px;
+            font-size: clamp(0.95em, 2.8vw, 1.15em);
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            min-height: 45px;
+            color: white;
+        }
+
+        .tracing-btn:hover, .tracing-btn:active {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .tracing-btn.clear-btn {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .tracing-btn.next-trace-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .tracing-toggle-btns {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .tracing-toggle-btn {
+            border: 2px solid #667eea;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: clamp(0.8em, 2.2vw, 0.95em);
+            cursor: pointer;
+            background: white;
+            color: #667eea;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .tracing-toggle-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tracing-toggle-btn:hover {
+            transform: scale(1.03);
+        }
+
+        .fill-sentence {
+            font-size: clamp(1.1em, 3.2vw, 1.5em);
+            color: #333;
+            margin-bottom: 12px;
+            line-height: 1.6;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .fill-blank-mark {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        .tracing-complete {
+            text-align: center;
+            padding: clamp(20px, 5vw, 40px);
+        }
+
+        .tracing-complete h2 {
+            font-size: clamp(1.8em, 6vw, 3em);
+            color: #d32f2f;
+            margin-bottom: 15px;
+        }
+
+        .tracing-complete p {
+            font-size: clamp(1.1em, 3.5vw, 1.5em);
+            color: #555;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 5px;
@@ -480,7 +621,9 @@
         const GAME_MODES = {
             QUIZ: 'quiz',
             FILL_BLANK: 'fillBlank',
-            MIXED: 'mixed'
+            MIXED: 'mixed',
+            FULL_TRACE: 'fullTrace',
+            FILL_TRACE: 'fillTrace'
         };
 
         // Question database with different types
@@ -852,6 +995,73 @@
             ]
         };
 
+        // なぞり練習用データ
+        const tracingData = {
+            kanji: [
+                { char: '脚', reading: 'きゃく' },
+                { char: '下', reading: 'か' },
+                { char: '照', reading: 'しょう' },
+                { char: '顧', reading: 'こ' },
+                { char: '合', reading: 'がっ' },
+                { char: '掌', reading: 'しょう' },
+                { char: '礼', reading: 'れい' },
+                { char: '作', reading: 'さ' },
+                { char: '務', reading: 'む' },
+                { char: '服', reading: 'ふく' },
+                { char: '装', reading: 'そう' },
+                { char: '態', reading: 'たい' },
+                { char: '度', reading: 'ど' },
+                { char: '言', reading: 'こと' },
+                { char: '葉', reading: 'ば' }
+            ],
+            hiragana: [
+                { char: 'き', word: 'きゃっかしょうこ' },
+                { char: 'ゃ', word: 'きゃっかしょうこ' },
+                { char: 'っ', word: 'きゃっかしょうこ' },
+                { char: 'か', word: 'きゃっかしょうこ' },
+                { char: 'し', word: 'しょうこ' },
+                { char: 'ょ', word: 'しょうこ' },
+                { char: 'う', word: 'しょうこ' },
+                { char: 'こ', word: 'しょうこ' },
+                { char: 'が', word: 'がっしょうれい' },
+                { char: 'っ', word: 'がっしょうれい' },
+                { char: 'し', word: 'がっしょうれい' },
+                { char: 'ょ', word: 'がっしょうれい' },
+                { char: 'う', word: 'がっしょうれい' },
+                { char: 'れ', word: 'がっしょうれい' },
+                { char: 'い', word: 'がっしょうれい' },
+                { char: 'さ', word: 'さむ' },
+                { char: 'む', word: 'さむ' },
+                { char: 'ふ', word: 'ふくそう' },
+                { char: 'く', word: 'ふくそう' },
+                { char: 'そ', word: 'ふくそう' },
+                { char: 'う', word: 'ふくそう' },
+                { char: 'た', word: 'たいど' },
+                { char: 'い', word: 'たいど' },
+                { char: 'ど', word: 'たいど' },
+                { char: 'こ', word: 'ことば' },
+                { char: 'と', word: 'ことば' },
+                { char: 'ば', word: 'ことば' }
+            ],
+            fillTrace: [
+                { sentence: 'くつを（　　　）ます', answer: 'そろえ', hint: 'そろえ' },
+                { sentence: 'あいさつは（　　　　　）れいです', answer: 'がっしょう', hint: 'がっしょう' },
+                { sentence: 'おそうじを（　　）といいます', answer: 'さむ', hint: 'さむ' },
+                { sentence: 'きれいな（　　　　）をしましょう', answer: 'ふくそう', hint: 'ふくそう' },
+                { sentence: 'れいぎただしい（　　　）をしましょう', answer: 'たいど', hint: 'たいど' },
+                { sentence: 'ていねいな（　　　）をつかいましょう', answer: 'ことば', hint: 'ことば' },
+                { sentence: 'かみのけを（　　　　）ましょう', answer: 'たばね', hint: 'たばね' },
+                { sentence: 'つめは みじかく（　　）ましょう', answer: 'きり', hint: 'きり' }
+            ]
+        };
+
+        // なぞりモード用の状態
+        let tracingCanvas = null;
+        let tracingCtx = null;
+        let isDrawing = false;
+        let tracingIndex = 0;
+        let tracingSubMode = 'kanji'; // 'kanji' or 'hiragana'
+
         let currentMode = null;
         let currentQuestionIndex = 0;
         let correctAnswers = 0;
@@ -876,6 +1086,14 @@
                             🎲 ミックスモード
                             <div class="description">いろんな もんだいに ちょうせん！</div>
                         </button>
+                        <button class="mode-btn" onclick="startGame('${GAME_MODES.FULL_TRACE}')">
+                            ✍️ まるうつしモード
+                            <div class="description">おてほんの もじを なぞろう！</div>
+                        </button>
+                        <button class="mode-btn" onclick="startGame('${GAME_MODES.FILL_TRACE}')">
+                            📝 あなうめなぞりモード
+                            <div class="description">ぶんしょうの あいた ところを かこう！</div>
+                        </button>
                     </div>
                 </div>
             `;
@@ -886,6 +1104,12 @@
             currentQuestionIndex = 0;
             correctAnswers = 0;
             stars = 0;
+
+            // なぞりモードは別処理
+            if (mode === GAME_MODES.FULL_TRACE || mode === GAME_MODES.FILL_TRACE) {
+                startTracing(mode);
+                return;
+            }
 
             // Prepare questions based on mode
             if (mode === GAME_MODES.QUIZ) {
@@ -1133,6 +1357,225 @@
                     <p style="font-size: 1.3em; margin: 20px 0; color: #555;">
                         けんしのこころえを よくまなびました！<br>
                         これからも がんばりましょう！
+                    </p>
+                    <button class="restart-btn" onclick="showMenu()">メニューに もどる</button>
+                </div>
+            `;
+        }
+
+        // --- なぞり練習モード ---
+        function startTracing(mode) {
+            tracingIndex = 0;
+            if (mode === GAME_MODES.FULL_TRACE) {
+                tracingSubMode = 'kanji';
+                showFullTrace();
+            } else {
+                showFillTrace();
+            }
+        }
+
+        function showFullTrace() {
+            const data = tracingData[tracingSubMode];
+            if (tracingIndex >= data.length) {
+                showTracingComplete();
+                return;
+            }
+            const item = data[tracingIndex];
+            const mainContent = document.getElementById('main-content');
+
+            mainContent.innerHTML = `
+                <button class="home-btn" onclick="showMenu()">🏠 メニューに もどる</button>
+                <div class="tracing-area">
+                    <div class="tracing-header">
+                        <div class="tracing-toggle-btns">
+                            <button class="tracing-toggle-btn ${tracingSubMode === 'kanji' ? 'active' : ''}" onclick="switchTracingSub('kanji')">かんじ</button>
+                            <button class="tracing-toggle-btn ${tracingSubMode === 'hiragana' ? 'active' : ''}" onclick="switchTracingSub('hiragana')">ひらがな</button>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${((tracingIndex + 1) / data.length) * 100}%"></div>
+                        </div>
+                        <div class="tracing-progress">${tracingIndex + 1} / ${data.length} もじめ</div>
+                        <div class="tracing-char-info">
+                            ${tracingSubMode === 'kanji' ? `「${item.char}」（${item.reading}）` : `「${item.char}」（${item.word}）`}
+                        </div>
+                    </div>
+                    <div class="canvas-wrapper" id="canvas-wrapper">
+                        <canvas id="tracing-canvas"></canvas>
+                    </div>
+                    <div class="tracing-buttons">
+                        <button class="tracing-btn clear-btn" onclick="clearCanvas()">🧹 けす</button>
+                        <button class="tracing-btn next-trace-btn" onclick="nextTrace()">つぎ ➡️</button>
+                    </div>
+                </div>
+            `;
+
+            setupCanvas(item.char);
+        }
+
+        function showFillTrace() {
+            const data = tracingData.fillTrace;
+            if (tracingIndex >= data.length) {
+                showTracingComplete();
+                return;
+            }
+            const item = data[tracingIndex];
+            const mainContent = document.getElementById('main-content');
+
+            mainContent.innerHTML = `
+                <button class="home-btn" onclick="showMenu()">🏠 メニューに もどる</button>
+                <div class="tracing-area">
+                    <div class="tracing-header">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${((tracingIndex + 1) / data.length) * 100}%"></div>
+                        </div>
+                        <div class="tracing-progress">${tracingIndex + 1} / ${data.length} もんめ</div>
+                        <div class="fill-sentence">${item.sentence.replace('（', '<span class="fill-blank-mark">（').replace('）', '）</span>')}</div>
+                        <div class="tracing-reading">こたえ：「${item.hint}」をなぞろう！</div>
+                    </div>
+                    <div class="canvas-wrapper" id="canvas-wrapper">
+                        <canvas id="tracing-canvas"></canvas>
+                    </div>
+                    <div class="tracing-buttons">
+                        <button class="tracing-btn clear-btn" onclick="clearCanvas()">🧹 けす</button>
+                        <button class="tracing-btn next-trace-btn" onclick="nextFillTrace()">つぎ ➡️</button>
+                    </div>
+                </div>
+            `;
+
+            setupCanvas(item.answer);
+        }
+
+        function switchTracingSub(sub) {
+            tracingSubMode = sub;
+            tracingIndex = 0;
+            showFullTrace();
+        }
+
+        function setupCanvas(guideText) {
+            const wrapper = document.getElementById('canvas-wrapper');
+            const canvas = document.getElementById('tracing-canvas');
+            tracingCanvas = canvas;
+            tracingCtx = canvas.getContext('2d');
+
+            // Canvasサイズを画面に合わせる
+            const maxSize = Math.min(window.innerWidth - 60, 350);
+            const size = Math.max(200, maxSize);
+            canvas.width = size;
+            canvas.height = size;
+
+            // お手本文字を描画
+            drawGuideText(guideText, size);
+
+            // イベント設定
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDraw);
+            canvas.addEventListener('mouseleave', stopDraw);
+            canvas.addEventListener('touchstart', startDrawTouch, { passive: false });
+            canvas.addEventListener('touchmove', drawTouch, { passive: false });
+            canvas.addEventListener('touchend', stopDraw);
+            canvas.addEventListener('touchcancel', stopDraw);
+        }
+
+        function drawGuideText(text, size) {
+            tracingCtx.save();
+            // 文字数に応じてフォントサイズ調整
+            let fontSize;
+            if (text.length === 1) {
+                fontSize = size * 0.7;
+            } else if (text.length <= 3) {
+                fontSize = size * 0.35;
+            } else if (text.length <= 5) {
+                fontSize = size * 0.22;
+            } else {
+                fontSize = size * 0.16;
+            }
+            tracingCtx.font = `${fontSize}px 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif`;
+            tracingCtx.fillStyle = 'rgba(200, 200, 200, 0.5)';
+            tracingCtx.textAlign = 'center';
+            tracingCtx.textBaseline = 'middle';
+            tracingCtx.fillText(text, size / 2, size / 2);
+            tracingCtx.restore();
+        }
+
+        function getCanvasPos(e) {
+            const rect = tracingCanvas.getBoundingClientRect();
+            const scaleX = tracingCanvas.width / rect.width;
+            const scaleY = tracingCanvas.height / rect.height;
+            return {
+                x: (e.clientX - rect.left) * scaleX,
+                y: (e.clientY - rect.top) * scaleY
+            };
+        }
+
+        function startDraw(e) {
+            isDrawing = true;
+            const pos = getCanvasPos(e);
+            tracingCtx.beginPath();
+            tracingCtx.moveTo(pos.x, pos.y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const pos = getCanvasPos(e);
+            tracingCtx.lineWidth = 6;
+            tracingCtx.lineCap = 'round';
+            tracingCtx.lineJoin = 'round';
+            tracingCtx.strokeStyle = '#333';
+            tracingCtx.lineTo(pos.x, pos.y);
+            tracingCtx.stroke();
+        }
+
+        function stopDraw() {
+            isDrawing = false;
+        }
+
+        function startDrawTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const mouseEvent = { clientX: touch.clientX, clientY: touch.clientY };
+            startDraw(mouseEvent);
+        }
+
+        function drawTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const mouseEvent = { clientX: touch.clientX, clientY: touch.clientY };
+            draw(mouseEvent);
+        }
+
+        function clearCanvas() {
+            if (!tracingCanvas || !tracingCtx) return;
+            const size = tracingCanvas.width;
+            tracingCtx.clearRect(0, 0, size, size);
+            // お手本文字を再描画
+            const data = currentMode === GAME_MODES.FULL_TRACE
+                ? tracingData[tracingSubMode]
+                : tracingData.fillTrace;
+            const item = data[tracingIndex];
+            const guideText = currentMode === GAME_MODES.FULL_TRACE ? item.char : item.answer;
+            drawGuideText(guideText, size);
+        }
+
+        function nextTrace() {
+            tracingIndex++;
+            showFullTrace();
+        }
+
+        function nextFillTrace() {
+            tracingIndex++;
+            showFillTrace();
+        }
+
+        function showTracingComplete() {
+            const mainContent = document.getElementById('main-content');
+            mainContent.innerHTML = `
+                <div class="tracing-complete">
+                    <h2>🎊 よくできました！ 🎊</h2>
+                    <div class="star-container">⭐⭐⭐⭐⭐</div>
+                    <p>
+                        もじの れんしゅう がんばりました！<br>
+                        これからも たくさん かきましょう！
                     </p>
                     <button class="restart-btn" onclick="showMenu()">メニューに もどる</button>
                 </div>
